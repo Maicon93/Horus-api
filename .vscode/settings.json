@@ -1,0 +1,7 @@
+{
+  "files.trimTrailingWhitespace": true,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
+  "html.format.wrapAttributes": "preserve",
+}

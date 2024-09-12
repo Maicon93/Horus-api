@@ -1,0 +1,43 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE person (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    email VARCHAR UNIQUE NOT NULL,
+    password VARCHAR NULL,
+    cpf_cnpj VARCHAR UNIQUE NOT NULL,
+    phone VARCHAR,
+    adress VARCHAR,
+    city VARCHAR,
+    state VARCHAR(2),
+    active BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE course (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    id_coordinator INTEGER REFERENCES person(id)
+);
+
+CREATE TABLE notices (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    text TEXT NOT NULL,
+    link_image TEXT,
+    id_course INTEGER REFERENCES course(id),
+    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    highlighted BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE SESSION_TOKENS (
+	id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    token VARCHAR(50) NOT NULL,
+    validate TIMESTAMP NOT NULL
+);
