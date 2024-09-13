@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(50)
+  email          String           @unique @db.VarChar(100)
+  password       String?           @db.VarChar(100)
+  session_token  session_token[]
+  active         Boolean?         @default(false)  // Pode ser null
+  created_at     DateTime?        @default(now())  // Pode ser null
+  courses        course[]
+}
+
+model course {
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar
+  id_coordinator Int?
+  coordinator    user?    @relation(fields: [id_coordinator], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  notices        notice[]
+}
+
+model notice {
+  id             Int      @id @default(autoincrement())
+  title          String   @db.VarChar
+  text           String
+  link_image     String?
+  id_course      Int?
+  created_at     DateTime? @default(now()) @db.Timestamp(6)
+  highlighted    Boolean? @default(false)
+  preview        String?
+  course         course?  @relation(fields: [id_course], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model session_token {
+  id             Int      @id @default(autoincrement())
+  user_id        Int
+  token          String   @db.VarChar(50)
+  validate       DateTime @db.Timestamp(6)
+  user           user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

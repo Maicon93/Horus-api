@@ -1,20 +1,11 @@
-- Comandos iniciais
+## Como usar os comandos do prisma:
 
-  - npm install -g typescript
-  - tsc --init
+deve fazer a alteração que for necessário e na sequenciar rodar o comando para criar a migration.
 
-- Instalar dependencias
-  - npm install --save-dev typescript
-  - npm install --save-dev @types/node
-  - npm install --save express
-  - npm install --save @types/express
-  - npm install --save-dev ts-node-dev
-  - npm install --save http-status-codes
-  - npm install bcrypt
-  - npm install -D @types/bcrypt
-  - npm install jsonwebtoken
-  - npm install -D @types/jsonwebtoken
-  - npm add pg
-  - npm install dotenv
-  - npm i --save-dev @types/pg
-  - npm install cors
+npx prisma migrate dev --name create_initial_tables -> criar uma migration
+npx prisma migrate reset -> resetar banco e rodar as migrations
+
+# Comandos iniciais
+
+- npx prisma migrate reset
+- npm run dev

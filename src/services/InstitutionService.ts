@@ -1,18 +1,16 @@
-import { Pool } from 'pg';
 import { UtilsService } from './UtilsService';
 import fs from 'fs';
 import path from 'path';
+import { PrismaClient } from '@prisma/client';
 
-
+const prisma = new PrismaClient();
 export class InstitutionService {
-    async getAllNotices(conn: Pool): Promise<ObjectResponse> {
+    async getAllNotices(): Promise<ObjectResponse> {
         try {
             const utilsService = new UtilsService()
+            const notices = await prisma.notice.findMany({ where: { highlighted: true } })
 
-            const query = 'select * from notices where highlighted is true';
-            const rows = await conn.query(query);
-
-            const notices = rows.rows.map((row: any) => {
+            const rows = notices.map((row: any) => {
                 return {
                     ...row,
                     created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
@@ -20,13 +18,14 @@ export class InstitutionService {
                 };
             });
 
-            return { type: 'success', body: notices };
+            return { type: 'success', body: rows };
         } catch (error: any) {
+            console.log(error.message)
             return { type: 'error', msg: 'Erro ao consultar noticias!' };
         }
     }
 
-    async getAllSeals(conn: Pool): Promise<ObjectResponse> {
+    async getAllSeals(): Promise<ObjectResponse> {
         try {
             const sealsDir = path.join(__dirname, '../images/seals')
 
