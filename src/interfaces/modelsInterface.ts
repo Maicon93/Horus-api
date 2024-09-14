@@ -16,7 +16,7 @@ interface User {
 }
 
 interface Notices {
-  id: number
+  id?: number
   title: string
   text: string
   link_image: string
@@ -26,4 +26,11 @@ interface Notices {
   preview: string
   created_date?: any
   image_url?: string
+}
+
+interface SessionTokens {
+  id?: Number
+  user_id: Number
+  token: string
+  validate: any
 }

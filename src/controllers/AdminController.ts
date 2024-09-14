@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
-import { UserService } from "../services/UserService";
+import { AdminService } from "../services/AdminService";
 
-export class AdminController extends UserService {
+export class AdminController extends AdminService {
     constructor() {
         super();
+    }
+
+    async auth(req: Request, res: Response) {
+        const response: ObjectResponse = await super.authenticator(req.conn, req.body)
+
+        return res.status(200).json(response)
     }
 
     async login(req: Request, res: Response) {

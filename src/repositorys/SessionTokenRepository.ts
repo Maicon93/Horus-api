@@ -26,5 +26,16 @@ export default {
     } catch (error) {
       return
     }
+  },
+
+  async findByToken(conn: Pool, token: string): Promise<SessionTokens | null> {
+    try {
+      const query = (`select * from session_tokens where token = '${token}' limit 1`)
+      const rows = await conn.query(query);
+
+      return rows.rows[0]
+    } catch (error) {
+      return null
+    }
   }
 };

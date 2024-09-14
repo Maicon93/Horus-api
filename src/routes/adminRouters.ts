@@ -7,6 +7,7 @@ const conn = new Connection().conn;
 
 routes.use(conn)
 
+routes.post('/auth', new AdminController().auth)
 routes.post('/login', new AdminController().login)
 routes.post('/create', new AdminController().insertUser)
 

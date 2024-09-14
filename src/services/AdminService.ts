@@ -4,15 +4,30 @@ import { Pool } from 'pg';
 import SessionTokenRepository from '../repositorys/SessionTokenRepository';
 import UserRepository from '../repositorys/UserRepository';
 
-export class UserService {
-    async makeLogin(conn: Pool, body: CreateUser): Promise<ObjectResponse> {
+export class AdminService {
+    async authenticator(conn: Pool, data: { token: string }): Promise<ObjectResponse> {
+        const auth: SessionTokens | null = await SessionTokenRepository.findByToken(conn, data.token)
+
+        if (auth) {
+            const currentDate = new Date();
+            const validateDate = new Date(auth.validate);
+
+            if (currentDate <= validateDate) {
+                return { type: 'success' }
+            }
+        }
+
+        return { type: 'error', msg: 'Usuário não autenticado!' }
+    }
+
+    async makeLogin(conn: Pool, data: CreateUser): Promise<ObjectResponse> {
         try {
-            const user = await UserRepository.findByEmail(conn, body.email)
+            const user = await UserRepository.findByEmail(conn, data.email)
 
             const sessionHash = randomBytes(16).toString('hex');
 
             if (user) {
-                const isMatch = !user.password ? false : await bcrypt.compare(body.password, user.password);
+                const isMatch = !user.password ? false : await bcrypt.compare(data.password, user.password);
 
                 if (isMatch) {
                     delete user.password
@@ -29,11 +44,11 @@ export class UserService {
         }
     }
 
-    async create(conn: Pool, body: CreateUser): Promise<ObjectResponse> {
+    async create(conn: Pool, data: CreateUser): Promise<ObjectResponse> {
         const salt = await bcrypt.genSalt(10)
-        body.hashedPassword = body.password ? await bcrypt.hash(body.password, salt) : null
+        data.hashedPassword = data.password ? await bcrypt.hash(data.password, salt) : null
 
-        const create = await UserRepository.create(conn, body)
+        const create = await UserRepository.create(conn, data)
 
         if (create) {
             return { type: 'success', msg: 'Inserido com sucesso' }
