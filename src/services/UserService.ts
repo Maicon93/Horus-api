@@ -1,21 +1,24 @@
 import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
-import { PrismaClient } from '@prisma/client';
+import { Pool } from 'pg';
+import SessionTokenRepository from '../repositorys/SessionTokenRepository';
+import UserRepository from '../repositorys/UserRepository';
 
-const prisma = new PrismaClient();
 export class UserService {
-    async makeLogin(body: CreateUser): Promise<ObjectResponse> {
+    async makeLogin(conn: Pool, body: CreateUser): Promise<ObjectResponse> {
         try {
-            const user = await prisma.user.findUnique({ where: { email: body.email } })
+            const user = await UserRepository.findByEmail(conn, body.email)
 
             const sessionHash = randomBytes(16).toString('hex');
 
             if (user) {
-                const isMatch = await bcrypt.compare(body.password, user.password);
+                const isMatch = !user.password ? false : await bcrypt.compare(body.password, user.password);
 
                 if (isMatch) {
                     delete user.password
                     user.sessionHash = sessionHash
+
+                    await SessionTokenRepository.insert(conn, user)
                     return { type: 'success', body: user }
                 }
             }
@@ -26,23 +29,16 @@ export class UserService {
         }
     }
 
-    async create(body: CreateUser): Promise<ObjectResponse> {
-        try {
-            const salt = await bcrypt.genSalt(10)
-            const hashedPassword = body.password ? await bcrypt.hash(body.password, salt) : null
+    async create(conn: Pool, body: CreateUser): Promise<ObjectResponse> {
+        const salt = await bcrypt.genSalt(10)
+        body.hashedPassword = body.password ? await bcrypt.hash(body.password, salt) : null
 
-            await prisma.user.create({
-                data: {
-                    name: body.name,
-                    email: body.email,
-                    password: hashedPassword,
-                },
-            });
+        const create = await UserRepository.create(conn, body)
 
+        if (create) {
             return { type: 'success', msg: 'Inserido com sucesso' }
-        } catch (error: any) {
-            console.log(error.message)
-            return { type: 'error', msg: 'Email já cadastrado!' }
         }
+
+        return { type: 'error', msg: 'Email já cadastrado' }
     }
 }

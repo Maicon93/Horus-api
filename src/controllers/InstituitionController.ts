@@ -13,7 +13,7 @@ export class InstituitionController extends InstitutionService {
     }
 
     async getSealsAll(req: Request, res: Response) {
-        const response: ObjectResponse = await super.getAllSeals(req.conn)
+        const response: ObjectResponse = await super.getAllSeals()
 
         return res.status(200).json(response)
     }

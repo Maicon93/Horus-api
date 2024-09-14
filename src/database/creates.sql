@@ -1,28 +1,24 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE person (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL,
-    email VARCHAR UNIQUE NOT NULL,
-    password VARCHAR NULL,
-    cpf_cnpj VARCHAR UNIQUE NOT NULL,
-    phone VARCHAR,
-    adress VARCHAR,
-    city VARCHAR,
-    state VARCHAR(2),
-    active BOOLEAN DEFAULT FALSE,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100),
+    active BOOLEAN DEFAULT true,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE course (
+
+CREATE TABLE persons (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
+);
+
+
+CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL,
-    id_coordinator INTEGER REFERENCES person(id)
+    id_coordinator INTEGER REFERENCES persons(id)
 );
 
 CREATE TABLE notices (
@@ -32,10 +28,11 @@ CREATE TABLE notices (
     link_image TEXT,
     id_course INTEGER REFERENCES course(id),
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    highlighted BOOLEAN DEFAULT FALSE
+    highlighted BOOLEAN DEFAULT FALSE,
+    preview TEXT,
 );
 
-CREATE TABLE SESSION_TOKENS (
+CREATE TABLE session_tokens (
 	id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) NOT NULL,
     token VARCHAR(50) NOT NULL,

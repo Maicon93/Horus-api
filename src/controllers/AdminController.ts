@@ -7,13 +7,13 @@ export class AdminController extends UserService {
     }
 
     async login(req: Request, res: Response) {
-        const response: ObjectResponse = await super.makeLogin(req.body)
+        const response: ObjectResponse = await super.makeLogin(req.conn, req.body)
 
         return res.status(200).json(response)
     }
 
     async insertUser(req: Request, res: Response) {
-        const response: ObjectResponse = await super.create(req.body)
+        const response: ObjectResponse = await super.create(req.conn, req.body)
 
         return res.status(201).json(response)
     }

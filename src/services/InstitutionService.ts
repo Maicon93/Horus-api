@@ -1,26 +1,26 @@
 import { UtilsService } from './UtilsService';
 import fs from 'fs';
 import path from 'path';
-import { PrismaClient } from '@prisma/client';
+import { Pool } from 'pg';
+import NoticesRepository from '../repositorys/NoticesRepository';
 
-const prisma = new PrismaClient();
 export class InstitutionService {
-    async getAllNotices(): Promise<ObjectResponse> {
+    async getAllNotices(conn: Pool): Promise<ObjectResponse> {
         try {
             const utilsService = new UtilsService()
-            const notices = await prisma.notice.findMany({ where: { highlighted: true } })
 
-            const rows = notices.map((row: any) => {
+            const rows: Notices[] | null = await NoticesRepository.getAll(conn)
+
+            const notices = rows.map((row: Notices) => {
                 return {
                     ...row,
                     created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
-                    image_url: `http://localhost:3000/images/${row.link_image}` // ajusta o link da imagem
+                    image_url: `http://localhost:3000/images/${row.link_image}`
                 };
             });
 
-            return { type: 'success', body: rows };
+            return { type: 'success', body: notices };
         } catch (error: any) {
-            console.log(error.message)
             return { type: 'error', msg: 'Erro ao consultar noticias!' };
         }
     }
