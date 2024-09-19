@@ -25,7 +25,7 @@ CREATE TABLE notices (
     id SERIAL PRIMARY KEY,
     title VARCHAR NOT NULL,
     text TEXT NOT NULL,
-    link_image TEXT,
+    image_name TEXT,
     id_course INTEGER REFERENCES course(id),
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     highlighted BOOLEAN DEFAULT FALSE,
@@ -37,4 +37,13 @@ CREATE TABLE session_tokens (
     user_id INTEGER REFERENCES users(id) NOT NULL,
     token VARCHAR(50) NOT NULL,
     validate TIMESTAMP NOT NULL
+);
+
+alter table courses add column "description" text;
+alter table courses add column "actuation_area" text;
+
+CREATE TABLE teacher (
+	id SERIAL PRIMARY KEY,
+    person_id INTEGER REFERENCES persons(id) NOT NULL,
+    course_id INTEGER REFERENCES courses(id) NOT NULL
 );

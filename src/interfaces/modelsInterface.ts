@@ -19,7 +19,7 @@ interface Notices {
   id?: number
   title: string
   text: string
-  link_image: string
+  image_name: string
   id_course: number
   created_at: any
   highlighted: boolean
@@ -33,4 +33,14 @@ interface SessionTokens {
   user_id: Number
   token: string
   validate: any
+}
+interface Courses {
+  id?: Number
+  name: string
+  id_coordinator: Number
+}
+interface Persons {
+  id?: Number
+  name: string
+  email: string
 }

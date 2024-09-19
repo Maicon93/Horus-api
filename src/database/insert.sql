@@ -15,7 +15,7 @@ VALUES
 ('Sistemas da Informação', 5);
 
 -- Inserindo registros na tabela notices
-INSERT INTO notices (title, subtitle, text, link_image, id_course, highlighted)
+INSERT INTO notices (title, subtitle, text, image_name, id_course, highlighted)
 VALUES
 ('Seminário de Direito Civil', 'Vagas Limitadas', 'Inscreva-se para o nosso seminário de Direito Civil que acontecerá no próximo mês.', 'https://example.com/image3.jpg', 1, FALSE),
 ('Workshop de Contabilidade', 'Curso Rápido', 'Um workshop prático sobre as novas regras de contabilidade.', 'https://example.com/image4.jpg', 2, FALSE),
