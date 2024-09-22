@@ -4,7 +4,30 @@ export default {
   async getAll(conn: Pool): Promise<Courses[] | []> {
     try {
       const query = await conn.query(`select c.*, p.name as name_coordinator from courses c
-        inner join persons p on (p.id = c.id_coordinator)`);
+        inner join persons p on (p.id = c.id_coordinator)
+        order by c.name desc`);
+
+      return query.rows;
+    } catch (error) {
+      return []
+    }
+  },
+
+  async getById(conn: Pool, id: Number): Promise<Courses[] | []> {
+    try {
+      const query = await conn.query(`select
+          c.*,
+          p.name as name_coordinator,
+          (
+            select json_agg(p2.name)
+            from persons p2
+            inner join teachers t on t.person_id = p2.id
+            where t.course_id = c.id
+          ) as teachers
+        from courses c
+        inner join persons p on p.id = c.id_coordinator
+        where c.id = ${id}
+        order by c.name desc`);
 
       return query.rows;
     } catch (error) {
@@ -15,17 +38,33 @@ export default {
   async createOrInsert(conn: Pool, data: any) {
     try {
       if (data.id) {
-        const query = `update courses set
+        const query = `
+          UPDATE courses SET
             name = '${data.name}',
-            id_coordinator = ${data.id_coordinator}
-          where id = ${data.id}`
-        return await conn.query(query)
-      } else {
-        const query = `insert into courses (name, id_coordinator)
-          values('${data.name}', ${data.id_coordinator})
-          returning *`;
+            id_coordinator = ${data.id_coordinator},
+            description = '${data.description}',
+            actuation_area = '${data.actuation_area}',
+            type = '${data.type}',  -- Campo course_type
+            duration = ${data.duration}  -- Campo duration
+          WHERE id = ${data.id}
+          RETURNING *;`;
 
-        const rows = await conn.query(query)
+        const rows = await conn.query(query);
+        return rows.rows[0];
+      } else {
+        const query = `
+          INSERT INTO courses (name, id_coordinator, description, actuation_area, type, duration)
+          VALUES (
+            '${data.name}',
+            ${data.id_coordinator},
+            '${data.description}',
+            '${data.actuation_area}',
+            '${data.type}',
+            ${data.duration}
+          )
+          RETURNING *;`;
+
+        const rows = await conn.query(query);
         return rows.rows[0];
       }
     } catch (error) {

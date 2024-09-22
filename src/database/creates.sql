@@ -41,9 +41,15 @@ CREATE TABLE session_tokens (
 
 alter table courses add column "description" text;
 alter table courses add column "actuation_area" text;
+alter table courses add column "duration" decimal(11,2);
 
-CREATE TABLE teacher (
+CREATE TYPE course_type AS ENUM ('Graduação', 'Pós-Graduação', 'Técnico', 'Licenciatura', 'Outros');
+alter table courses add column type course_type;
+
+CREATE TABLE teachers (
 	id SERIAL PRIMARY KEY,
     person_id INTEGER REFERENCES persons(id) NOT NULL,
     course_id INTEGER REFERENCES courses(id) NOT NULL
 );
+
+alter table courses add column "video_frame" text;

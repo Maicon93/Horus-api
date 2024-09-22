@@ -78,4 +78,16 @@ export class InstituitionController extends InstitutionService {
 
         return res.status(200).json(response)
     }
+
+    async getTeachersByCourse(req: Request, res: Response) {
+        const response: ObjectResponse = await super.findTeachersByCourse(req.conn, +req.params.id)
+
+        return res.status(200).json(response)
+    }
+
+    async getCourseById(req: Request, res: Response) {
+        const response: ObjectResponse = await super.findCourseById(req.conn, +req.params.id)
+
+        return res.status(200).json(response)
+    }
 }

@@ -38,6 +38,11 @@ interface Courses {
   id?: Number
   name: string
   id_coordinator: Number
+  description: string
+  actuation_area: string
+  type: string
+  duration: Number
+  teachers?: []
 }
 interface Persons {
   id?: Number

@@ -5,6 +5,7 @@ import { Pool } from 'pg';
 import NoticesRepository from '../repositorys/NoticesRepository';
 import CoursesRepository from '../repositorys/CoursesRepository';
 import PersonsRepository from '../repositorys/PersonsRepository';
+import TeachesRepository from '../repositorys/TeachesRepository';
 
 export class InstitutionService {
   async findNotice(conn: Pool, data: any): Promise<ObjectResponse> {
@@ -108,8 +109,14 @@ export class InstitutionService {
   async updateOrCreateCourse(conn: Pool, data: any): Promise<ObjectResponse> {
     try {
       const course = await CoursesRepository.createOrInsert(conn, data)
-      const resp = { type: 'success', msg: 'salvo com sucesso', body: [] }
 
+      await TeachesRepository.deleteByCourseId(conn, course.id)
+
+      data.teachers.forEach(async (a: Number) => {
+        await TeachesRepository.insert(conn, course.id, a)
+      });
+
+      const resp = { type: 'success', msg: 'salvo com sucesso', body: [] }
       !data.id && (resp.body = course);
 
       return resp;
@@ -120,6 +127,7 @@ export class InstitutionService {
 
   async deleteCourse(conn: Pool, id: Number): Promise<ObjectResponse> {
     try {
+      await TeachesRepository.deleteByCourseId(conn, id)
       await CoursesRepository.delete(conn, id)
 
       return { type: 'success', msg: 'Curso deletado com sucesso' };
@@ -168,6 +176,26 @@ export class InstitutionService {
       return { type: 'success', msg: 'Pessoa deletada com sucesso' };
     } catch (error: any) {
       return { type: 'error', msg: 'Erro ao deletar pessoa!' };
+    }
+  }
+
+  async findTeachersByCourse(conn: Pool, courseId: Number): Promise<ObjectResponse> {
+    try {
+      const rows: Persons[] | null = await TeachesRepository.getByCourse(conn, courseId)
+
+      return { type: 'success', body: rows };
+    } catch (error: any) {
+      return { type: 'error', msg: 'Erro ao consultar noticias!' };
+    }
+  }
+
+  async findCourseById(conn: Pool, courseId: Number): Promise<ObjectResponse> {
+    try {
+      const rows: Courses[] | null = await CoursesRepository.getById(conn, courseId)
+
+      return { type: 'success', body: rows };
+    } catch (error: any) {
+      return { type: 'error', msg: 'Erro ao consultar noticias!' };
     }
   }
 }
