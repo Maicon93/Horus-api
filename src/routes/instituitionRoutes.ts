@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { InstituitionController } from "../controllers/InstituitionController";
 import { Connection } from "../middleware/Connection";
+import { Auth } from "../middleware/Auth";
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
+import { CourseController } from "../controllers/CourseController";
+import { NoticesController } from "../controllers/NoticesController";
+import { PersonsController } from "../controllers/PersonsController";
+import { InstituitionController } from "../controllers/InstituitionController";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -33,26 +37,32 @@ const upload = multer({ storage });
 
 const routes = Router();
 const conn = new Connection().conn;
+const auth = new Auth().execute;
 
 routes.use(conn);
 
-routes.get('/get-all-notices', new InstituitionController().getNoticesAll);
-routes.get('/get-notices-highlighted', new InstituitionController().getHightlightedNotices);
+routes.get('/get-course/:id', new CourseController().getCourseById);
+routes.get('/get-all-courses', new CourseController().getCoursesAll);
+
+routes.get('/get-all-notices', new NoticesController().getNoticesAll);
+routes.get('/get-notices-highlighted', new NoticesController().getHightlightedNotices);
+routes.get('/get-notice/:id', new NoticesController().getNotice);
+
+routes.get('/get-all-persons', new PersonsController().getAllPersons);
+routes.get('/get-teachers-by-course/:id', new PersonsController().getTeachersByCourse);
+
 routes.get('/get-all-seals', new InstituitionController().getSealsAll);
-routes.get('/get-all-courses', new InstituitionController().getCoursesAll);
-routes.get('/get-notice/:id', new InstituitionController().getNotice);
-routes.get('/get-all-persons', new InstituitionController().getAllPersons);
-routes.get('/get-teachers-by-course/:id', new InstituitionController().getTeachersByCourse);
-routes.get('/get-course/:id', new InstituitionController().getCourseById);
 
+routes.use(auth);
 
-//TODO criar autenticação para ver se ta logado e se o token é válido
-routes.post('/save-notice', upload.single('image'), new InstituitionController().saveNotice);
-routes.delete('/delete-notice/:id', new InstituitionController().deleteNotice);
-routes.put('/create-or-update-course', new InstituitionController().createOrUpdateCourse);
-routes.delete('/delete-course/:id', new InstituitionController().courseDelete);
-routes.put('/create-or-update-person', new InstituitionController().createOrUpdatePerson);
-routes.delete('/delete-person/:id', new InstituitionController().personDelete);
+routes.put('/create-or-update-course', new CourseController().createOrUpdateCourse);
+routes.delete('/delete-course/:id', new CourseController().courseDelete);
+
+routes.post('/save-notice', upload.single('image'), new NoticesController().saveNotice);
+routes.delete('/delete-notice/:id', new NoticesController().deleteNotice);
+
+routes.put('/create-or-update-person', new PersonsController().createOrUpdatePerson);
+routes.delete('/delete-person/:id', new PersonsController().personDelete);
 
 
 export default routes;
