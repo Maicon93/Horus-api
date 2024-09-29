@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 
 app.use('/images', express.static(path.join(__dirname, './images')));
+
 app.use('/admin', adminRouters)
 app.use('/institution', instituitionRoutes)
 app.use('/notices', noticesRoutes)

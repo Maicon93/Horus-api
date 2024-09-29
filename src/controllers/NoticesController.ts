@@ -26,7 +26,7 @@ export class NoticesController extends NoticesService {
     }
 
     async saveNotice(req: Request, res: Response) {
-        const response: ObjectResponse = await super.NoticeSave(req.conn, req.body)
+        const response: ObjectResponse = await super.noticeSave(req.conn, req.body)
 
         return res.status(200).json(response)
     }

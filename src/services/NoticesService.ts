@@ -43,7 +43,7 @@ export class NoticesService {
     }
   }
 
-  async NoticeSave(conn: Pool, data: any): Promise<ObjectResponse> {
+  async noticeSave(conn: Pool, data: any): Promise<ObjectResponse> {
     try {
       await NoticesRepository.createOrInsert(conn, data);
 
