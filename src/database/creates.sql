@@ -53,3 +53,5 @@ CREATE TABLE teachers (
 );
 
 alter table courses add column "video_frame" text;
+
+alter table courses add column "teaching_curriculum" text;

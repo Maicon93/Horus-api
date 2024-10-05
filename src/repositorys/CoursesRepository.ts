@@ -38,12 +38,17 @@ export default {
   async createOrInsert(conn: Pool, data: any) {
     try {
       if (data.id) {
+        const pdfCurriculum = data.teachingCurriculumName
+
+        const teachingCurriculum = pdfCurriculum ? `teaching_curriculum = '${pdfCurriculum}',` : ''
+
         const query = `
           UPDATE courses SET
             name = '${data.name}',
             id_coordinator = ${data.id_coordinator},
             description = '${data.description}',
             actuation_area = '${data.actuation_area}',
+            ${teachingCurriculum}
             type = '${data.type}',  -- Campo course_type
             duration = ${data.duration}  -- Campo duration
           WHERE id = ${data.id}
@@ -53,14 +58,15 @@ export default {
         return rows.rows[0];
       } else {
         const query = `
-          INSERT INTO courses (name, id_coordinator, description, actuation_area, type, duration)
+          INSERT INTO courses (name, id_coordinator, description, actuation_area, type, duration, teaching_curriculum)
           VALUES (
             '${data.name}',
             ${data.id_coordinator},
             '${data.description}',
             '${data.actuation_area}',
             '${data.type}',
-            ${data.duration}
+            ${data.duration},
+            '${data.teachingCurriculumName || null}'
           )
           RETURNING *;`;
 

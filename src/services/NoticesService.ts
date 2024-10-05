@@ -13,7 +13,7 @@ export class NoticesService {
         return {
           ...row,
           created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
-          image_url: `http://localhost:3000/images/notices/${row.image_name}`
+          image_url: `http://localhost:3000/assets/notices/${row.image_name}`
         };
       });
 
@@ -33,7 +33,7 @@ export class NoticesService {
         return {
           ...row,
           created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
-          image_url: `http://localhost:3000/images/notices/${row.image_name}`
+          image_url: `${process.env.URL_LOCAL}/images/notices/${row.image_name}`
         };
       });
 
@@ -63,7 +63,7 @@ export class NoticesService {
         return {
           ...row,
           created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
-          image_url: `http://localhost:3000/images/notices/${row.image_name}`
+          image_url: `${process.env.URL_LOCAL}/assets/notices/${row.image_name}`
         };
       });
 

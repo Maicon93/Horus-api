@@ -43,6 +43,7 @@ interface Courses {
   type: string
   duration: Number
   teachers?: []
+  teaching_curriculum?: string
 }
 interface Persons {
   id?: Number

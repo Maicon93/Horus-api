@@ -30,9 +30,11 @@ export class CourseService {
 
             await TeachesRepository.deleteByCourseId(conn, course.id)
 
-            data.teachers.forEach(async (a: Number) => {
-                await TeachesRepository.insert(conn, course.id, a)
-            });
+            if (data.teachers) {
+                data.teachers = data.teachers.split(",").forEach(async (a: Number) => {
+                    await TeachesRepository.insert(conn, course.id, a)
+                });
+            }
 
             const resp = { type: 'success', msg: 'salvo com sucesso', body: [] }
             !data.id && (resp.body = course);

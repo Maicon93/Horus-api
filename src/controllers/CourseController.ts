@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { CourseService } from "../services/CourseService";
+import path from "path";
+import fs from 'fs';
 
 export class CourseController extends CourseService {
 
@@ -25,6 +27,25 @@ export class CourseController extends CourseService {
         const response: ObjectResponse = await super.deleteCourse(req.conn, +req.params.id)
 
         return res.status(200).json(response)
+    }
+
+    async downloadPdfTeachingCurriculum(req: Request, res: Response) {
+        const fileName = req.params.fileName;
+        const filePath = path.resolve('src/assets/pdfs', fileName);
+
+        try {
+            await fs.promises.access(filePath, fs.constants.F_OK);
+        } catch (err) {
+            console.error('Arquivo não encontrado:', fileName);
+            return res.status(404).send('Arquivo não encontrado');
+        }
+
+        res.download(filePath, fileName, (err) => {
+            if (err) {
+                console.error('Erro ao enviar o arquivo:', err);
+                return res.status(500).send('Erro ao fazer o download do arquivo');
+            }
+        });
     }
 
 }
