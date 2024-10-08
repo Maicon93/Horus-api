@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Connection } from "../middleware/Connection";
 import { Auth } from "../middleware/Auth";
 import { PersonsController } from "../controllers/PersonsController";
+import { uploadImageTeacher } from '../middleware/uploadImageTeacher';
 
 const routes = Router();
 const conn = new Connection().conn;
@@ -14,7 +15,7 @@ routes.get('/get-teachers-by-course/:id', new PersonsController().getTeachersByC
 
 routes.use(auth);
 
-routes.put('/create-or-update-person', new PersonsController().createOrUpdatePerson);
+routes.put('/create-or-update-person', uploadImageTeacher.single('image'), new PersonsController().createOrUpdatePerson);
 routes.delete('/delete-person/:id', new PersonsController().personDelete);
 
 

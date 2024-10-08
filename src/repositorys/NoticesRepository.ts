@@ -45,6 +45,7 @@ export default {
     try {
       if (data.id) {
         const imageName = data.imageName ? `image_name = '${data.imageName}',` : ''
+
         const query = `UPDATE notices SET
             title = '${data.title}',
             text = '${data.text}',

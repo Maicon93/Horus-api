@@ -44,9 +44,13 @@ interface Courses {
   duration: Number
   teachers?: []
   teaching_curriculum?: string
+  image_name?: string
+  image_url?: string
 }
 interface Persons {
   id?: Number
   name: string
   email: string
+  image_name?: string | null
+  image_url?: string
 }

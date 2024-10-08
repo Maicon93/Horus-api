@@ -18,6 +18,7 @@ export default {
       const query = await conn.query(`select
           c.*,
           p.name as name_coordinator,
+          p.image_name,
           (
             select json_agg(p2.name)
             from persons p2

@@ -18,7 +18,16 @@ export class CourseService {
         try {
             const rows: Courses[] | null = await CoursesRepository.getById(conn, courseId)
 
-            return { type: 'success', body: rows };
+            const persons = rows.map(a => {
+                const image_url = a.image_name ? `${process.env.URL_LOCAL}/images/teachers/${a.image_name}` : null
+
+                return {
+                    ...a,
+                    image_url
+                }
+            })
+
+            return { type: 'success', body: persons };
         } catch (error: any) {
             return { type: 'error', msg: 'Erro ao consultar noticias!' };
         }

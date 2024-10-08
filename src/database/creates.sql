@@ -10,8 +10,8 @@ CREATE TABLE users (
 
 CREATE TABLE persons (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL
+    name VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE
 );
 
 
@@ -55,3 +55,5 @@ CREATE TABLE teachers (
 alter table courses add column "video_frame" text;
 
 alter table courses add column "teaching_curriculum" text;
+
+alter table persons add column "image_name" text;

@@ -12,24 +12,44 @@ export default {
   },
 
   async createOrInsert(conn: Pool, data: any) {
-    try {
-      if (data.id) {
-        const query = `update persons set
-            name = '${data.name}',
-            email = '${data.email}'
-          where id = '${data.id}'`;
-        await conn.query(query);
+    if (data.id) {
+      const updates = [];
 
-      } else {
+      data.name && (updates.push(`name = '${data.name}'`));
 
-        const query = `insert into persons (name, email)
-          values ('${data.name}', '${data.email}')
-          returning *`;
+      data.email ? updates.push(`email = '${data.email}'`) : updates.push(`email = null`);
+
+      if (data.imageName) {
+        updates.push(`image_name = '${data.imageName}'`);
+      }
+
+      const query = updates.length > 0 ? `UPDATE persons SET ${updates.join(', ')} WHERE id = ${data.id}` : null;
+
+      if (query) {
         const rows = await conn.query(query);
         return rows.rows[0];
       }
-    } catch (error) {
-      throw new Error('Erro ao salvar pessoa');
+
+      return null
+
+    } else {
+      const fields = ['name'];
+      const values = [`'${data.name}'`];
+
+      if (data.email) {
+        fields.push('email');
+        values.push(`'${data.email}'`);
+      }
+
+      if (data.imageName) {
+        fields.push('image_name');
+        values.push(`'${data.imageName}'`);
+      }
+
+      const query = `INSERT INTO persons (${fields.join(', ')}) VALUES (${values.join(', ')}) returning *`;
+
+      const rows = await conn.query(query);
+      return rows.rows[0];
     }
   },
 

@@ -7,7 +7,17 @@ export class PersonsService {
     try {
       const rows: Persons[] | null = await PersonsRepository.getAll(conn)
 
-      return { type: 'success', body: rows };
+      const persons = rows.map(a => {
+        const image_url = a.image_name ? `${process.env.URL_LOCAL}/images/teachers/${a.image_name}` : null
+
+        return {
+          ...a,
+          image_url,
+          old_image_name: a.image_name
+        }
+      })
+
+      return { type: 'success', body: persons };
     } catch (error: any) {
       return { type: 'error', msg: 'Erro ao consultar noticias!' };
     }
@@ -26,13 +36,13 @@ export class PersonsService {
   async updateOrCreatePerson(conn: Pool, data: any): Promise<ObjectResponse> {
     try {
       const person = await PersonsRepository.createOrInsert(conn, data);
-      const resp = { type: 'success', msg: 'Pessoa salva com sucesso', body: [] };
+      const resp = { type: 'success', msg: 'Docente salvo com sucesso', body: [] };
 
       !data.id && (resp.body = person);
 
       return resp;
     } catch (error: any) {
-      return { type: 'error', msg: 'Erro ao salvar pessoa!' };
+      return { type: 'error', msg: 'Erro ao salvar docente!' };
     }
   }
 
