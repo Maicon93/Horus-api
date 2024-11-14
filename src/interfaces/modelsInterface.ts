@@ -21,7 +21,7 @@ interface Notices {
   text: string
   image_name: string
   id_course: number
-  created_at: any
+  create_at: any
   highlighted: boolean
   preview: string
   created_date?: any

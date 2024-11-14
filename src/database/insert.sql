@@ -1,26 +1,50 @@
--- Inserindo registros na tabela person
-INSERT INTO person (name, email, password, cpf_cnpj, phone, adress, city, state, active)
-VALUES
-('João Silva', 'joao.silva@example.com', 'senha123', '12345678901', '11987654321', 'Rua das Flores, 123', 'São Paulo', 'SP', TRUE),
-('Maria Oliveira', 'maria.oliveira@example.com', 'senha456', '98765432100', '21987654321', 'Avenida Central, 456', 'Rio de Janeiro', 'RJ', TRUE),
-('Carlos Pereira', 'carlos.pereira@example.com', 'senha789', '11122233344', '31987654321', 'Rua das Acácias, 789', 'Belo Horizonte', 'MG', TRUE),
-('Ana Souza', 'ana.souza@example.com', 'senha101', '55566677788', '11912345678', 'Praça da Liberdade, 101', 'Salvador', 'BA', TRUE),
-('Beatriz Santos', 'beatriz.santos@example.com', 'senha202', '99988877766', '71987654321', 'Avenida Atlântica, 202', 'Florianópolis', 'SC', TRUE);
-
--- Inserindo registros na tabela course
-INSERT INTO course (name, id_coordinator)
-VALUES
-('Direito', 3),
-('Ciências Contábeis', 4),
-('Sistemas da Informação', 5);
-
--- Inserindo registros na tabela notices
-INSERT INTO notices (title, subtitle, text, image_name, id_course, highlighted)
-VALUES
-('Seminário de Direito Civil', 'Vagas Limitadas', 'Inscreva-se para o nosso seminário de Direito Civil que acontecerá no próximo mês.', 'https://example.com/image3.jpg', 1, FALSE),
-('Workshop de Contabilidade', 'Curso Rápido', 'Um workshop prático sobre as novas regras de contabilidade.', 'https://example.com/image4.jpg', 2, FALSE),
-('Hackathon de Sistemas da Informação', 'Competição de 24 horas', 'Junte-se ao nosso hackathon e mostre suas habilidades em desenvolvimento de sistemas.', 'https://example.com/image5.jpg', 3, TRUE),
-('Palestra sobre Inteligência Artificial', 'Evento Gratuito', 'Participe da nossa palestra sobre IA com especialistas da área.', 'https://example.com/image6.jpg', 2, FALSE),
-('Nova Turma de Sistemas da Informação', 'Início em 2025', 'Estamos abrindo uma nova turma de Sistemas da Informação para o próximo ano.', 'https://example.com/image7.jpg', 3, TRUE);
-
-
+insert into persons (name, email) values
+('Michel Vivian', 'MichelVivian@gmail.com'),
+('Rosangela Olbermann', 'RosangelaOlbermann@gmail.com'),
+('Cristiane Flach', 'CristianeFlach@gmail.com'),
+('Gilnei Vogel', 'GilneiVogel@gmail.com'),
+('Graciane Hammes', 'GracianeHammes@gmail.com'),
+('Ederson Lauschener', 'ederson.lauschener@example.com'),
+('Tainara Paula Klein', 'tainara.paula.klein@example.com'),
+('Paulo Miguel Telocken', 'paulo.miguel.telocken@example.com'),
+('Lucas Josias Rohr', 'lucas.josias.rohr@example.com'),
+('Carol Cristina dos Santos', 'carol.cristina.santos@example.com'),
+('Schirley Suzane Stahl Leonhard', 'schirley.suzane.leonhard@example.com'),
+('Bárbara Eichelberger Klein', 'barbara.eichelberger.klein@example.com'),
+('Luize Gracieli Giacomolli de Oliveira', 'luize.giacomolli.oliveira@example.com'),
+('Roberto Bonelli Bittencourt Filho', 'roberto.bonelli.bittencourt@example.com'),
+('Priscila Elis Signor', 'priscila.elis.signor@example.com'),
+('Kauana Vailon', 'kauana.vailon@example.com'),
+('Clédina de Oliveira S. dos Santos', 'cledina.oliveira.santos@example.com'),
+('Lauana Boing', 'lauana.boing@example.com'),
+('Daniel Gaspareto', 'daniel.gaspareto@example.com'),
+('Anelize Gregory', 'anelize.gregory@example.com'),
+('Ivan Carvalho da Rosa', 'ivan.carvalho.rosa@example.com'),
+('Mariana Vedovatto', 'mariana.vedovatto@example.com'),
+('José Ronaldo Marques', 'jose.ronaldo.marques@example.com'),
+('Fátima de Matos Marques', 'fatima.matos.marques@example.com'),
+('Zenaide Schmitz', 'zenaide.schmitz@example.com'),
+('Silmara T. Freitas', 'silmara.freitas@example.com'),
+('Adriana Meneghetti', 'adriana.meneghetti@example.com'),
+('Douglas Tadeu Silva', 'douglas.tadeu.silva@example.com'),
+('Keity Andrieli Santoro', 'keity.andrieli.santoro@example.com'),
+('Mateus Schabarum', 'mateus.schabarum@example.com'),
+('Raquel Bulegon', 'raquel.bulegon@example.com'),
+('Rejane Cerizzolli', 'rejane.cerizzolli@example.com'),
+('Simone S. Juwer', 'simone.juwer@example.com'),
+('Stela Niero', 'stela.niero@example.com'),
+('Marcia Meneghetti Dalvesco', 'marcia.dalvesco@example.com'),
+('Renata Laranjeira', 'renata.laranjeira@example.com'),
+('Rafael Variani', 'rafael.variani@example.com'),
+('Angelita Schmitt', 'angelita.schmitt@example.com'),
+('Renan Borgheti', 'renan.borgheti@example.com'),
+('Jorge Trento', 'jorge.trento@example.com'),
+('Ricardo Hendges', 'ricardo.hendges@example.com'),
+('Kátia Beltrame', 'katia.beltrame@example.com'),
+('Juliano Rambo', 'juliano.rambo@example.com'),
+('Francieli Pavalecini', 'francieli.pavalecini@example.com'),
+('Gabriela Peretti', 'gabriela.peretti@example.com'),
+('Mateus Batistella', 'mateus.batistella@example.com'),
+('Juliano Eichelberger', 'juliano.eichelberger@example.com'),
+('Ilvacir Franceschi', 'ilvacir.franceschi@example.com'),
+('Maria Júlia Vellozo', 'maria.julia.vellozo@example.com');

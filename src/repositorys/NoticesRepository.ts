@@ -4,7 +4,7 @@ export default {
   async getById(conn: Pool, id: Number): Promise<Notices[] | []> {
     try {
       const query = await conn.query(`select n.*, c.name, n.image_name as old_image_name from notices n
-        inner join courses c on (c.id = n.id_course) where n.id = ${id}`);
+        left join courses c on (c.id = n.id_course) where n.id = ${id}`);
 
       return query.rows;
     } catch (error) {
@@ -17,9 +17,9 @@ export default {
       const where = courseId ? ` where c.id = ${courseId}` : ''
       const query = `select n.*, c.name, n.image_name as old_image_name
           from notices n
-          inner join courses c on (c.id = n.id_course)
+          left join courses c on (c.id = n.id_course)
           ${where}
-          order by created_at `
+          order by create_at `
 
       const rows = await conn.query(query);
 

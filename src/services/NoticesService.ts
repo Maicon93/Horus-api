@@ -12,7 +12,7 @@ export class NoticesService {
       const notices = rows.map((row: Notices) => {
         return {
           ...row,
-          created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
+          created_date: utilsService.formatDateToDDMMYYYY(row.create_at),
           image_url: `${process.env.URL_LOCAL}/images/notices/${row.image_name}`
         };
       });
@@ -32,7 +32,7 @@ export class NoticesService {
       const notices = rows.map((row: Notices) => {
         return {
           ...row,
-          created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
+          created_date: utilsService.formatDateToDDMMYYYY(row.create_at),
           image_url: `${process.env.URL_LOCAL}/images/notices/${row.image_name}`
         };
       });
@@ -62,8 +62,8 @@ export class NoticesService {
       const notices = rows.map((row: Notices) => {
         return {
           ...row,
-          created_date: utilsService.formatDateToDDMMYYYY(row.created_at),
-          image_url: `${process.env.URL_LOCAL}/assets/notices/${row.image_name}`
+          created_date: utilsService.formatDateToDDMMYYYY(row.create_at),
+          image_url: `${process.env.URL_LOCAL}/images/notices/${row.image_name}`
         };
       });
 
