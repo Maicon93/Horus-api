@@ -15,8 +15,7 @@ export default {
 
   async insert(conn: Pool, courseId: Number, personId: Number) {
     try {
-      const query = `insert into teachers (course_id, person_id)
-          values ('${courseId}', '${personId}')`;
+      const query = `insert into teachers (course_id, person_id) values ('${courseId}', '${personId}')`;
 
       await conn.query(query)
 

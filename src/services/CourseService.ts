@@ -39,13 +39,18 @@ export class CourseService {
 
             await TeachesRepository.deleteByCourseId(conn, course.id)
 
+            const promises: Promise<any>[] = [];
+
             if (data.teachers) {
-                data.teachers = data.teachers.split(",").forEach(async (a: Number) => {
-                    await TeachesRepository.insert(conn, course.id, a)
+                data.teachers.split(",").map((a: string | number) => {
+                    promises.push(TeachesRepository.insert(conn, course.id, Number(a)));
                 });
             }
 
-            const resp = { type: 'success', msg: 'salvo com sucesso', body: [] }
+            await Promise.all(promises);
+
+            const resp = { type: 'success', msg: 'salvo com sucesso', body: [] };
+
             !data.id && (resp.body = course);
 
             return resp;
